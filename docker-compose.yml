@@ -1,18 +1,33 @@
-  version: '3'
+version: '3'
 
-  services:
-    db:
-      image: postgres
-      environment:
-        - POSTGRES_DB=postgres
-        - POSTGRES_USER=postgres
-        - POSTGRES_PASSWORD=postgres
-    web:
-      build: .
-      command: python manage.py runserver 0.0.0.0:8000
-      volumes:
-        - .:/code
-      ports:
-        - "8000:8000"
-      depends_on:
-        - db
+services:
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+
+  rabbit:
+    image: rabbitmq:3.6.9-alpine
+
+  celery:
+    build: .
+    command: bash -c "sleep 15 && celery -A asana_client worker -l info"
+    environment:
+      - DJANGO_SETTINGS_MODULE=asana_client.settings
+    volumes:
+      - .:/code
+    depends_on:
+      - db
+      - rabbit
