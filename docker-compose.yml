@@ -13,6 +13,7 @@ services:
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/code
+    env_file: .env
     ports:
       - "8000:8000"
     depends_on:
@@ -24,8 +25,7 @@ services:
   celery:
     build: .
     command: bash -c "sleep 15 && celery -A asana_client worker -l info"
-    environment:
-      - DJANGO_SETTINGS_MODULE=asana_client.settings
+    env_file: .env
     volumes:
       - .:/code
     depends_on:
