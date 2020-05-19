@@ -16,13 +16,23 @@ python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 python3 manage.py migrate
+python3 manage.py get_asana_users # prepopulate Asana users table
 python3 manage.py runserver
 ```
 Check running app on localhost:8000
 
-Run in Docker:
+To Run in Docker:
 ```
 docker-compose up -d
+```
+Run migrations
+```
+docker-compose exec web python manage.py migrate
+```
+Prepopulate Asana users to be able to assign them to tasks
+
+```
+docker-compose exec web python manage.py get_asana_users
 ```
 Create superuser
 ```

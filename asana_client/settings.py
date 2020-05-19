@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '6npj2^(el+6wm1z7kk7xeoj(zwadoci#un+*k02jjk0*4bfovy'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -85,7 +85,6 @@ DATABASES = {
     }
 }
 
-# Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -102,21 +101,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler'
-        },
-    },
-    'loggers': {
-        '': {  # 'catch all' loggers by referencing it with the empty string
-            'handlers': ['console'],
-            'level': 'DEBUG',
-        },
-    },
-}
 ASANA_TOKEN = os.getenv('ASANA_TOKEN', '')
 if not ASANA_TOKEN:
     raise EnvironmentError("Please provide Asana token!")

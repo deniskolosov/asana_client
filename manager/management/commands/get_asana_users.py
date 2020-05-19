@@ -28,7 +28,6 @@ class Command(BaseCommand):
             asana_gids = set(u['gid'] for u in asana_users)
             existing_gids = AsanaUser.objects.values_list('asana_gid', flat=True)
             gids_to_create = asana_gids - set(existing_gids)
-            self.stdout.write(f'existing: {existing_gids}, to create: {gids_to_create} resp: {list(asana_users)}')
             if gids_to_create:
                 AsanaUser.objects.bulk_create(
                     [AsanaUser(asana_gid=a, name=gid_name_map[a]) for a in list(gids_to_create)]
