@@ -6,6 +6,9 @@ from manager.models import AsanaUser
 
 
 class Command(BaseCommand):
+    """
+    Command to prepopulate db with Asana users.
+    """
     help = 'Syncronize app users with Asana users.'
 
     def handle(self, *args, **options):

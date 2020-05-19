@@ -7,7 +7,10 @@ logger = logging.getLogger(__name__)
 
 
 class Project(models.Model):
-    asana_gid = models.CharField(max_length=256, unique=True, editable=False, null=True)
+    """
+    Project representation.
+    """
+    asana_gid = models.CharField(max_length=256, unique=True, editable=False, null=True) # Asana project id
     name = models.CharField(max_length=256, unique=True)
 
     def save(self, *args, **kwargs):
@@ -22,24 +25,30 @@ class Project(models.Model):
                 logger.warning("Can't update project in Asana, no Asana project gid.")
         super().save(*args, **kwargs)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f'Project #{self.name}'
 
 
 class AsanaUser(models.Model):
-    asana_gid = models.CharField(max_length=256, unique=True)
+    """
+    Representation of User instance in Asana. Asana API doesn't allow creating or updating users
+    """
+    asana_gid = models.CharField(max_length=256, unique=True)  # Asana user id
     name = models.CharField(max_length=256)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f'User #{self.asana_gid}: {self.name}'
 
 
 class Task(models.Model):
-    asana_gid = models.CharField(max_length=256, unique=True, null=True)
+    """
+    Representation of Task in Asana, can be in multiple projects and have or don't have an assignee.
+    """
+    asana_gid = models.CharField(max_length=256, unique=True, null=True)  # Asana user id.
     projects = models.ManyToManyField(Project)
     name = models.CharField(max_length=256, null=True)
     description = models.TextField()
     assignee = models.ForeignKey(AsanaUser, on_delete=models.CASCADE, null=True, blank=True)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f'Task #{self.asana_gid}: {self.description[:10]}'
