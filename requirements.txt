@@ -15,7 +15,7 @@ flower==0.9.4
 humanize==0.5.1
 idna==2.9
 importlib-metadata==1.6.0
-ipython==7.14.0
+ipython==7.16.3
 ipython-genutils==0.2.0
 jedi==0.17.0
 kombu==4.6.8
